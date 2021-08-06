@@ -297,6 +297,7 @@ dfn {
   background-color: var(--theme-bg-primary);
   box-shadow: var(--soft-shadow) var(--soft-shadow) calc(var(--soft-shadow) * 2) var(--theme-bg-shadow), calc(-1 * var(--soft-shadow)) calc(-1 * var(--soft-shadow)) calc(var(--soft-shadow) * 2) var(--theme-bg-high);
 }
+
 [class*=soft-style--].soft-style--active:active {
   overflow: hidden;
   border-radius: var(--radius);
