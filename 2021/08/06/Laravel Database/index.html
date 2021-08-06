@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.0">
+
+  
+    <meta name="description" content="未来可期">
+  
+
+  
+
+  
+    <meta name="author" content="Cin">
+  
+
+  
+
+  
+
+  <title>Laravel Database | Blog by cin</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://qiniu.sukoshi.xyz/src/images/68686407_p0.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          Blog by cin
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">Laravel Database</h1>
+          <h2 class="title-sub-wrap">
+            <strong>Cin</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2021-08-06T10:52:59.000Z" itemprop="datePublished">2021-08-06</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h4 id="NO-1-传统模式-与原生sql无太大区别"><a href="#NO-1-传统模式-与原生sql无太大区别" class="headerlink" title="NO.1: 传统模式(与原生sql无太大区别)"></a>NO.1: 传统模式(与原生sql无太大区别)</h4><ul>
+<li><p>查询操作</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$data <span class="operator">=</span> DB::<span class="keyword">select</span>(&quot;select * from user&quot;);</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>返回一个二维数组 $data</span><br></pre></td></tr></table></figure></li>
+<li><p>插入操作</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$data <span class="operator">=</span> DB::<span class="keyword">insert</span>(&quot;insert into user(name,sex,age) values(?,?,?,?)&quot;,</span><br><span class="line">[<span class="string">&#x27;小明&#x27;</span>,<span class="string">&#x27;女&#x27;</span>,<span class="number">670</span>])</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>成功会返回<span class="literal">true</span></span><br></pre></td></tr></table></figure></li>
+<li><p>更新操作</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span>参数一为<span class="keyword">sql</span>语句,参二为前面对应的字段的值</span><br><span class="line">$data <span class="operator">=</span> DB::update(&quot;update `user` set `age`=&#x27;18&#x27; where ID = 1&quot;,[<span class="number">18</span>,<span class="number">1</span>]);</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>成功会返回<span class="literal">true</span></span><br></pre></td></tr></table></figure></li>
+<li><p>删除操作</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//参数一为sql语句,参数二为对应的值字段值,一定要有where语句,否则会清空数据库!!!</span></span><br><span class="line"><span class="variable">$data</span> = DB::delete(<span class="string">&quot;delete from user where ID = 1&quot;</span>,[<span class="number">1</span>])</span><br><span class="line"><span class="comment">//成功会返回非0的数</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="NO-2-采用laravel的内置DB操作类-经典DB模式"><a href="#NO-2-采用laravel的内置DB操作类-经典DB模式" class="headerlink" title="NO.2 采用laravel的内置DB操作类( 经典DB模式 )"></a>NO.2 采用laravel的内置DB操作类( 经典DB模式 )</h4><ul>
+<li><p>查询操作</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span><span class="keyword">get</span>()会返回所有数据相当于 <span class="operator">*</span></span><br><span class="line">$data <span class="operator">=</span> DB::<span class="keyword">table</span>(<span class="string">&#x27;user&#x27;</span>)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">get</span>();</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span><span class="keyword">first</span>()会返回单条数据</span><br><span class="line">$data <span class="operator">=</span> DB::<span class="keyword">table</span>(<span class="string">&#x27;user&#x27;</span>)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">first</span>();<span class="operator">/</span><span class="operator">/</span>返回第一条数据</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>id倒序第一条</span><br><span class="line">$data <span class="operator">=</span> DB::<span class="keyword">table</span>(<span class="string">&#x27;user&#x27;</span>)<span class="operator">-</span><span class="operator">&gt;</span>orderBy(<span class="string">&#x27;ID&#x27;</span>,<span class="string">&#x27;desc&#x27;</span>)<span class="operator">-</span><span class="operator">&gt;</span><span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">first</span>();</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>查找id大于<span class="number">2</span>的所有数据</span><br><span class="line">$data <span class="operator">=</span> DB::<span class="keyword">table</span>(<span class="string">&#x27;user&#x27;</span>)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">where</span>(<span class="string">&#x27;ID&#x27;</span>,<span class="string">&#x27;&gt;&#x27;</span>,<span class="number">2</span>)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">get</span>();</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>指定字段,后面无需<span class="keyword">get</span>()</span><br><span class="line">$data <span class="operator">=</span> DB::<span class="keyword">table</span>(<span class="string">&#x27;user&#x27;</span>)<span class="operator">-</span><span class="operator">&gt;</span>pluck(<span class="string">&#x27;name&#x27;</span>);</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>list()中可将指定字段作为下标</span><br><span class="line">$data <span class="operator">=</span> DB::<span class="keyword">table</span>(<span class="string">&#x27;user&#x27;</span>)<span class="operator">-</span><span class="operator">&gt;</span>list(<span class="string">&#x27;name&#x27;</span>,<span class="string">&#x27;id&#x27;</span>);</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span> <span class="keyword">select</span>()指定某个字段</span><br><span class="line">$data<span class="operator">=</span>DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">select</span>(<span class="string">&#x27;name&#x27;</span>,<span class="string">&#x27;ID&#x27;</span>)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">get</span>();</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span> chunk()每次查n条</span><br><span class="line">$data <span class="operator">=</span> DB::<span class="keyword">table</span>(&quot;user &quot;)<span class="operator">-</span><span class="operator">&gt;</span>chunk(<span class="number">2</span>,<span class="keyword">function</span>($<span class="keyword">user</span>)&#123;  <span class="operator">/</span><span class="operator">/</span>每次查<span class="number">2</span>条</span><br><span class="line">    var_dump($<span class="keyword">user</span>);</span><br><span class="line">    if(.......) <span class="keyword">return</span> <span class="literal">false</span>;  <span class="operator">/</span><span class="operator">/</span>在满足某个条件下使用<span class="keyword">return</span>就不会再往下查了</span><br><span class="line">&#125;);</span><br><span class="line">#使用聚合函数</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span><span class="built_in">count</span>()统计记录条数</span><br><span class="line">$num <span class="operator">=</span> DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="built_in">count</span>();</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span> <span class="built_in">max</span>()某个字段的最大值,同理min是最小值</span><br><span class="line">$max <span class="operator">=</span> DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="built_in">max</span>(&quot;age&quot;);</span><br><span class="line">echo $max;</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span> <span class="built_in">avg</span>()某个字段的平均值</span><br><span class="line">$avg <span class="operator">=</span> DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="built_in">avg</span>(&quot;age&quot;);</span><br><span class="line">echo $avg;</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span> <span class="built_in">sum</span>()某个字段的和</span><br><span class="line">$sum <span class="operator">=</span> DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="built_in">sum</span>(&quot;age&quot;);</span><br><span class="line">echo $sum;</span><br></pre></td></tr></table></figure></li>
+<li><p>插入操作</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$data <span class="operator">=</span> DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">insert</span>([<span class="string">&#x27;name&#x27;</span><span class="operator">=</span><span class="operator">&gt;</span><span class="string">&#x27;小花&#x27;</span>,<span class="string">&#x27;sex&#x27;</span><span class="operator">=</span><span class="operator">&gt;</span><span class="string">&#x27;女&#x27;</span>,<span class="string">&#x27;age&#x27;</span><span class="operator">=</span><span class="operator">&gt;</span><span class="number">20</span>]);</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>返回的为bool值</span><br><span class="line">$id <span class="operator">=</span> DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span>insertGetId([<span class="string">&#x27;name&#x27;</span><span class="operator">=</span><span class="operator">&gt;</span><span class="string">&#x27;小花&#x27;</span>,<span class="string">&#x27;sex&#x27;</span><span class="operator">=</span><span class="operator">&gt;</span><span class="string">&#x27;女&#x27;</span>,<span class="string">&#x27;age&#x27;</span><span class="operator">=</span><span class="operator">&gt;</span><span class="number">20</span>]);</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>返回新增id</span><br><span class="line"></span><br><span class="line">#插入多条</span><br><span class="line">$bool<span class="operator">=</span>DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">insert</span>([</span><br><span class="line">        [<span class="string">&#x27;name&#x27;</span><span class="operator">=</span><span class="operator">&gt;</span><span class="string">&#x27;小明&#x27;</span>,<span class="string">&#x27;sex&#x27;</span><span class="operator">=</span><span class="operator">&gt;</span><span class="string">&#x27;女&#x27;</span>,<span class="string">&#x27;age&#x27;</span><span class="operator">=</span><span class="operator">&gt;</span><span class="number">20</span>],</span><br><span class="line">        [<span class="string">&#x27;name&#x27;</span><span class="operator">=</span><span class="operator">&gt;</span><span class="string">&#x27;小红&#x27;</span>,<span class="string">&#x27;sex&#x27;</span><span class="operator">=</span><span class="operator">&gt;</span><span class="string">&#x27;男&#x27;</span>,<span class="string">&#x27;age&#x27;</span><span class="operator">=</span><span class="operator">&gt;</span><span class="number">21</span>],</span><br><span class="line">]);<span class="operator">/</span><span class="operator">/</span>返回bool值</span><br></pre></td></tr></table></figure></li>
+<li><p>更新操作</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span>更新操作的所有返回值皆为bool值</span><br><span class="line">$bool<span class="operator">=</span>DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">where</span>(<span class="string">&#x27;ID&#x27;</span>,<span class="number">6</span>)<span class="operator">-</span><span class="operator">&gt;</span>update([<span class="string">&#x27;age&#x27;</span><span class="operator">=</span><span class="operator">&gt;</span><span class="number">30</span>]);</span><br><span class="line">#自增</span><br><span class="line">$bool<span class="operator">=</span>DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">where</span>(<span class="string">&#x27;ID&#x27;</span>,<span class="number">6</span>)<span class="operator">-</span><span class="operator">&gt;</span>increment(&quot;age&quot;);<span class="operator">/</span><span class="operator">/</span>年龄加<span class="number">1</span></span><br><span class="line">$bool<span class="operator">=</span>DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">where</span>(<span class="string">&#x27;ID&#x27;</span>,<span class="number">6</span>)<span class="operator">-</span><span class="operator">&gt;</span>increment(&quot;age&quot;,<span class="number">3</span>);<span class="operator">/</span><span class="operator">/</span> 年龄加<span class="number">3</span></span><br><span class="line">#自减</span><br><span class="line">$bool<span class="operator">=</span>DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">where</span>(<span class="string">&#x27;ID&#x27;</span>,<span class="number">6</span>)<span class="operator">-</span><span class="operator">&gt;</span>decrement(&quot;age&quot;);<span class="operator">/</span><span class="operator">/</span> 年龄减<span class="number">1</span></span><br><span class="line">$bool<span class="operator">=</span>DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">where</span>(<span class="string">&#x27;ID&#x27;</span>,<span class="number">6</span>)<span class="operator">-</span><span class="operator">&gt;</span>decrement(&quot;age&quot;,<span class="number">3</span>);<span class="operator">/</span><span class="operator">/</span> 年龄减<span class="number">3</span></span><br><span class="line">#自增(减)同时进行其他操作</span><br><span class="line">$bool<span class="operator">=</span>DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">where</span>(<span class="string">&#x27;ID&#x27;</span>,<span class="number">6</span>)<span class="operator">-</span><span class="operator">&gt;</span>increment(&quot;age&quot;,<span class="number">3</span>,[<span class="string">&#x27;name&#x27;</span><span class="operator">=</span><span class="operator">&gt;</span><span class="string">&#x27;小美&#x27;</span>]);</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span> 年龄加<span class="number">3</span> 名字改为小强</span><br></pre></td></tr></table></figure></li>
+<li><p>删除操作</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span>所有的删除操作一定要注意<span class="keyword">where</span>条件<span class="operator">!</span><span class="operator">!</span><span class="operator">!</span></span><br><span class="line">$num<span class="operator">=</span>DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">where</span>(<span class="string">&#x27;ID&#x27;</span>,<span class="number">6</span>)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">delete</span>();<span class="operator">/</span><span class="operator">/</span> 删除<span class="number">1</span>条</span><br><span class="line">$num<span class="operator">=</span>DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">where</span>(<span class="string">&#x27;ID&#x27;</span>,<span class="string">&#x27;&gt;&#x27;</span>,<span class="number">4</span>)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">delete</span>();<span class="operator">/</span><span class="operator">/</span> 删除多条</span><br><span class="line">echo $num;  <span class="operator">/</span><span class="operator">/</span>删除的行数</span><br><span class="line">$num<span class="operator">=</span>DB::<span class="keyword">table</span>(&quot;user&quot;)<span class="operator">-</span><span class="operator">&gt;</span><span class="keyword">truncate</span>();<span class="operator">/</span><span class="operator">/</span> 删除整表，不能恢复，谨慎使用</span><br></pre></td></tr></table></figure>
+
+<h4 id="NO-3-laravel之精华版–Eloquent-ORM-为laravel操作数据库核心-主推"><a href="#NO-3-laravel之精华版–Eloquent-ORM-为laravel操作数据库核心-主推" class="headerlink" title="NO.3 laravel之精华版–Eloquent ORM(为laravel操作数据库核心,主推)"></a>NO.3 laravel之精华版–Eloquent ORM(为laravel操作数据库核心,主推)</h4><ol>
+<li><p>模型的建立</p>
+<p>laravel所自带的Eloquent ORM 是一个ActiveRecord实现，用于数据库操作。每个数据表都有一个与之对应的模型，用于数据表交互。<br> 建立模型，在app目录下建立一个user模型，由于看习惯了mvc所以先建立一个Models文件夹在里面建立user.php，目录结构变成 app/Models/user.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>\<span class="title">Models</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Database</span>\<span class="title">Eloquent</span>\<span class="title">Model</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Model</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">   <span class="comment">//表名的绑定</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$table</span> = <span class="string">&#x27;e_user&#x27;</span>;</span><br><span class="line">    <span class="comment">//绑定主键为&#x27;id&#x27;,(默认绑定的主键为&#x27;id&#x27;,如主键非id则必选)</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$primarykey</span> = <span class="string">&#x27;id&#x27;</span>;</span><br><span class="line">    <span class="comment">//开启时间戳,如不使用则设为false</span></span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$timestamps</span> = <span class="literal">true</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$timestamps</span>)&#123;</span><br><span class="line">        <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">getDateFormat</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> time();</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 允许批量赋值的字段</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$fillable</span>=[<span class="string">&#x27;name&#x27;</span>,<span class="string">&#x27;age&#x27;</span>,<span class="string">&#x27;sex&#x27;</span>];</span><br><span class="line">    <span class="comment">// 定义隐藏的字段</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$hidden</span> = [<span class="string">&#x27;updated_at&#x27;</span>,<span class="string">&#x27;created_at&#x27;</span>,<span class="string">&#x27;deleted_at&#x27;</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>控制器对模型并使用ORM的DB操作</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//需要导入ORM所在的模型</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      <span class="comment">// all()方法查询所有数据</span></span><br><span class="line">      <span class="variable">$users</span>=User ::all();</span><br><span class="line">      dd(<span class="variable">$users</span>);</span><br><span class="line">      <span class="comment">//find()查询一条，依据主键查询。findOrFail()查找不存在的记录时会抛出异常</span></span><br><span class="line">      <span class="variable">$user</span>=User ::find(<span class="number">5</span>);  <span class="comment">//主键为5的记录</span></span><br><span class="line">      var_dump(<span class="variable">$user</span>);</span><br><span class="line">      <span class="comment">//查询构造器的使用,省略了指定表名</span></span><br><span class="line">      <span class="variable">$user</span>=User::get();  </span><br><span class="line">      var_dump(<span class="variable">$user</span>);</span><br><span class="line">      <span class="comment">//使用leftjoin 进行查询</span></span><br><span class="line">      Banner::where(<span class="variable">$where</span>)</span><br><span class="line">      -&gt;leftJoin(<span class="string">&quot;c_img_url&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"><span class="variable">$join</span></span>)</span>&#123;</span><br><span class="line">           <span class="comment">// 右表和左表相对应的字段，可以有多个右表，直接把这一句复制改一下表名字段名就行了</span></span><br><span class="line">           <span class="variable">$join</span>-&gt;on(<span class="string">&quot;c_img_url.id&quot;</span>, <span class="string">&quot;=&quot;</span>, <span class="string">&quot;c_banner.img_url_id&quot;</span>); </span><br><span class="line">      &#125;)-&gt;get(<span class="keyword">array</span>(<span class="string">&#x27;c_banner.*&#x27;</span>,<span class="string">&#x27;c_img_url.address&#x27;</span>,<span class="string">&#x27;c_img_url.name&#x27;</span>))</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>新增数据,自定义时间戳,批量赋值</p>
+<p>laravel会默认维护created_at,updated_at 两个字段，这两个字段都是存储时间戳，整型11位的，因此使用时需要在数据库添加这两个字段。如果不需要这个功能，只需要在模型里加一个属性：public $timestamps=false; 以及一个方法，可以将当前时间戳存到数据库</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">（<span class="number">1</span>）使用save方法新增</span><br><span class="line"><span class="variable">$student</span>=<span class="keyword">new</span> Student();</span><br><span class="line"><span class="comment">//设定数据</span></span><br><span class="line"><span class="variable">$student</span>-&gt;name=<span class="string">&#x27;xiaoming&#x27;</span>;</span><br><span class="line"><span class="variable">$student</span>-&gt;age=<span class="string">&#x27;18&#x27;</span>;</span><br><span class="line"><span class="variable">$student</span>-&gt;sex=<span class="string">&#x27;女&#x27;</span>;</span><br><span class="line"><span class="variable">$bool</span>=<span class="variable">$student</span>-&gt;save();  <span class="comment">//保存</span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$bool</span>;</span><br><span class="line"></span><br><span class="line">（<span class="number">2</span>）使用create方法新增时，需要在模型里增加：</span><br><span class="line"> <span class="comment">//允许批量赋值的字段</span></span><br><span class="line"><span class="keyword">protected</span> <span class="variable">$fillable</span>=[<span class="string">&#x27;name&#x27;</span>,<span class="string">&#x27;age&#x27;</span>,<span class="string">&#x27;sex&#x27;</span>];  </span><br><span class="line"><span class="comment">// 在控制器中使用</span></span><br><span class="line">Student::create([<span class="string">&#x27;name&#x27;</span>=&gt;<span class="string">&#x27;mmm&#x27;</span>,<span class="string">&#x27;age&#x27;</span>=&gt;<span class="number">23</span>,<span class="string">&#x27;sex&#x27;</span>=&gt;<span class="string">&#x27;女&#x27;</span>]);</span><br><span class="line"><span class="comment">// 这样即可新增成功！</span></span><br><span class="line"></span><br><span class="line">（<span class="number">3</span>）firstOrCreate()以属性查找记录，若没有则新增</span><br><span class="line">代码执行顺序：先查找表中是否有name=phphub-monkey的，如果有则不新增，没有就新增</span><br><span class="line">第一个参数用于确认 Eloquent 对象是否存在；</span><br><span class="line">第二个参数用于生成 Eloquent 对象时需要附加生成的属性。</span><br><span class="line"><span class="variable">$user</span> = User::firstOrCreate(</span><br><span class="line">    [<span class="string">&#x27;name&#x27;</span> =&gt; <span class="string">&#x27;phphub-monkey&#x27;</span>],</span><br><span class="line">    [</span><br><span class="line">        <span class="string">&#x27;email&#x27;</span> =&gt; <span class="string">&#x27;jin114001251@gmail.com&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;age&#x27;</span> =&gt; <span class="string">&#x27;23&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;sex&#x27;</span> =&gt; <span class="string">&#x27;nv&#x27;</span>,</span><br><span class="line">    ]</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">（<span class="number">4</span>）firstOrNew()以属性查找记录，若没有则会创建新的实例。若需要保存，则自己调用save方法()</span><br><span class="line">和firstOrCreate类似只不过需要自己调用save()</span><br><span class="line"><span class="variable">$user</span>=User::firstOrNew([<span class="string">&#x27;name&#x27;</span>=&gt;<span class="string">&#x27;小强&#x27;</span>]);</span><br><span class="line"><span class="variable">$user</span>-&gt;save();</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$user</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>更新数据</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过模型更新数据</span></span><br><span class="line"><span class="variable">$user</span>=User::find(<span class="number">2</span>); <span class="comment">// 修改主键为2的数据</span></span><br><span class="line"><span class="variable">$user</span>-&gt;age=<span class="number">25</span>;</span><br><span class="line"><span class="variable">$user</span>-&gt;save(); <span class="comment">//返回bool值</span></span><br><span class="line"><span class="comment">//通过查询构造器更新</span></span><br><span class="line"><span class="variable">$num</span>=User::where(<span class="string">&#x27;ID&#x27;</span>,<span class="string">&#x27;&gt;&#x27;</span>,<span class="number">2</span>)-&gt;update([<span class="string">&#x27;age&#x27;</span>=&gt;<span class="number">20</span>]);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$num</span>;  <span class="comment">//返回更新的行数</span></span><br><span class="line"></span><br><span class="line">updateOrCreate如果不存在就创建（和firstOrNew方法类似）</span><br><span class="line"><span class="comment">// 名字为小明的行是否存在，不存在就创建</span></span><br><span class="line">User::updateOrCreate(</span><br><span class="line">    [<span class="string">&#x27;name&#x27;</span> =&gt; <span class="string">&#x27;小明&#x27;</span>],</span><br><span class="line">    [</span><br><span class="line">        <span class="string">&#x27;age&#x27;</span> =&gt; <span class="number">20</span>,</span><br><span class="line">        <span class="string">&#x27;sex&#x27;</span> =&gt; <span class="string">&#x27;女&#x27;</span>,</span><br><span class="line">    ]);</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>删除数据</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1</span>) 通过模型删除数据</span><br><span class="line"><span class="variable">$user</span>=User::find(<span class="number">11</span>);</span><br><span class="line"><span class="variable">$user</span>-&gt;delete(); <span class="comment">//返回bool值</span></span><br><span class="line"></span><br><span class="line">(<span class="number">2</span>) 通过主键删除</span><br><span class="line"> <span class="variable">$num</span>=User::destroy(<span class="number">10</span>); <span class="comment">//删除主键为10的一条记录</span></span><br><span class="line"> <span class="keyword">echo</span> <span class="variable">$num</span>; <span class="comment">//返回删除的行数</span></span><br><span class="line"> <span class="variable">$num</span>=User::destroy(<span class="number">10</span>,<span class="number">5</span>); <span class="comment">//删除多条  或者$num=Student::destroy([10,5]);</span></span><br><span class="line"> <span class="keyword">echo</span> <span class="variable">$num</span>; <span class="comment">//返回删除的行数</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ul>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2021/08/06/Node.js%20Socket/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Node.js Socket</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2021/08/06/React%20Axios/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">React Axios</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="https://s.gravatar.com/avatar/2d6b803eea37de0257620d5fabee7e64?s=200&amp;r=g&amp;d=retro" class="soft-size--round soft-style--box" alt="Cin">
+    
+    
+      <h2>Cin</h2>
+    
+    
+      <p>未来可期</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>25</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+<section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-notice" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M512 945.02305225v28.15620663a24.27259221 24.27259221 0 0 1-24.27259221 24.27259335H394.0352a48.54518557 48.54518557 0 0 1-41.74885888-23.78714112l-110.68302222-184.47170332a132.04290333 132.04290333 0 0 1-17.47626667-48.54518557h118.4502511a200.97706667 200.97706667 0 0 1 76.21594113 14.56355556l20.38897777 133.49925888a48.54518557 48.54518557 0 0 0 36.40888888 27.67075555l16.01991111 2.91271112a24.27259221 24.27259221 0 0 1 20.38897778 25.72894889zM997.45185223 463.45481443a194.18074112 194.18074112 0 0 1-38.8361489 116.50844445 24.75804445 24.75804445 0 0 1-36.4088889 0l-34.95253333-34.95253333a24.27259221 24.27259221 0 0 1-2.91271111-30.58346667 97.09036999 97.09036999 0 0 0 0-106.79940665 24.27259221 24.27259221 0 0 1 2.91271111-30.58346666l34.95253333-34.95253334a24.75804445 24.75804445 0 0 1 18.93262223-7.28177777 26.2144 26.2144 0 0 1 17.47626667 9.70903665A194.18074112 194.18074112 0 0 1 997.45185223 463.45481443z m-194.18074112-388.36148111v776.72296335a48.54518557 48.54518557 0 0 1-48.54518556 48.54518443h-28.64165888a48.54518557 48.54518557 0 0 1-33.98163001-14.07810332l-145.63555556-143.20829668A291.27111111 291.27111111 0 0 0 342.57730333 657.63555556H172.18370333a145.63555556 145.63555556 0 0 1-145.63555556-145.63555556v-97.09036999a145.63555556 145.63555556 0 0 1 145.63555556-145.63555556h170.3936a291.27111111 291.27111111 0 0 0 206.31703779-85.43952668l145.63555555-143.20829554a48.54518557 48.54518557 0 0 1 33.98162888-14.07810446H754.72592555a48.54518557 48.54518557 0 0 1 48.54518556 48.54518555z" fill="currentColor"></path>
+</svg>
+    <span>NOTICE</span>
+  </div>
+  <div class="widget-body">
+    <p>如果你看到这个,说明没有通知</p>
+  </div>
+</section>
+
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+          <a href="https://github.com/miiiku/" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+    </div>
+     
+    <p>&copy; 2021 <a href="/" target="_blank">Cin</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>

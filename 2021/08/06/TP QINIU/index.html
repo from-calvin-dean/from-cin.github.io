@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 5.4.0">
+
+  
+    <meta name="description" content="未来可期">
+  
+
+  
+
+  
+    <meta name="author" content="Cin">
+  
+
+  
+
+  
+
+  <title>TP QINIU | Blog by cin</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://qiniu.sukoshi.xyz/src/images/68686407_p0.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          Blog by cin
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">TP QINIU</h1>
+          <h2 class="title-sub-wrap">
+            <strong>Cin</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2021-08-06T10:30:42.000Z" itemprop="datePublished">2021-08-06</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <ol>
+<li><p>首先我们引入七牛的插件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">composer require qiniu/php-sdk	--tp</span><br><span class="line">composer require itbdw/laravel-storage-qiniu  --laravel</span><br></pre></td></tr></table></figure></li>
+<li><p>在配置文件中配置七牛云的参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">tp的app.php中加上</span><br><span class="line">&#x27;qiniu&#x27; =&gt; [</span><br><span class="line">        &#x27;accesskey&#x27; =&gt; &#x27;你的accesskey&#x27;,</span><br><span class="line">        &#x27;secretkey&#x27; =&gt; &#x27;你的secretkey&#x27;,</span><br><span class="line">        &#x27;bucket&#x27;    =&gt; &#x27;存储空间&#x27;,</span><br><span class="line">        &#x27;domain&#x27;    =&gt;  &#x27;域名&#x27;</span><br><span class="line">    ]</span><br><span class="line">    </span><br><span class="line">     laravel 中 config/app.php 里面的 providers 加上一行	itbdw\QiniuStorage\QiniuFilesystemServiceProvider::class,config/filesystems.php 里面的 disks数组加上</span><br><span class="line">      &#x27;qiniu&#x27; =&gt; [</span><br><span class="line">            &#x27;driver&#x27;    =&gt; &#x27;qiniu&#x27;,</span><br><span class="line">            &#x27;domain&#x27;    =&gt; &#x27;88888888.bkt.clouddn.com&#x27;,  //你的七牛域名</span><br><span class="line">            &#x27;access_key&#x27;=&gt; &#x27;&#x27;,    //AccessKey</span><br><span class="line">            &#x27;secret_key&#x27;=&gt; &#x27;&#x27;,   //SecretKey</span><br><span class="line">            &#x27;bucket&#x27;    =&gt; &#x27;wl11&#x27;,    //Bucket名字你的储存空间的名字</span><br><span class="line">        ],</span><br></pre></td></tr></table></figure></li>
+<li><p>前端使用webuploader上传</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">function Upload(i,num)&#123;</span><br><span class="line">    sumimg(num);</span><br><span class="line">//            var token = &#x27;ZTEpdpZn1J1fLzgTfNtLXvRmcu0bjcnTUUhoQsEW&#x27;;</span><br><span class="line">    var uploader = WebUploader.create(&#123;</span><br><span class="line">        auto: true,</span><br><span class="line">        swf: &#x27;/static/extends/lib/webuploader/0.1.5/Uploader.swf&#x27;,//文件接收服务端。</span><br><span class="line">        server: &#x27;/admin/tool/uploadImg&#x27;,//文件接收服务端。</span><br><span class="line">        pick: &#x27;#filePicker&#x27;+i,//指定选择文件的按钮容器</span><br><span class="line">        fileNumLimit: num,//文件数量</span><br><span class="line">        compress: &#123;</span><br><span class="line">            // 图片质量，只有type为`image/jpeg`的时候才有效。</span><br><span class="line">            quality: 90,</span><br><span class="line">        &#125;,</span><br><span class="line">        accept: &#123; //指定接受哪些类型的文件</span><br><span class="line">            title: &#x27;Images&#x27;,</span><br><span class="line">            extensions: &#x27;gif,jpg,jpeg,bmp,png&#x27;,</span><br><span class="line">            mimeTypes: &#x27;image/*&#x27;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    uploader;</span><br><span class="line">    //当文件被加入队列以后触发</span><br><span class="line">    uploader.on(&#x27;fileQueued&#x27;,function(file)&#123;</span><br><span class="line">        var $li = $(</span><br><span class="line">                &#x27;&lt;div id=&quot;&#x27; + file.id + &#x27;&quot; class=&quot;file-item thumbnail&quot; onclick=&quot;delUpload(this,&#x27;+i+&#x27;,&#x27;+num+&#x27;);&quot;&gt;&#x27; +</span><br><span class="line">                &#x27;&lt;input type=&quot;hidden&quot; name=&quot;img[]&quot; id=&quot;&#x27;+file.id+&#x27;id&quot; /&gt;&#x27;+</span><br><span class="line">                &#x27;&lt;img&gt;&#x27; +</span><br><span class="line">                &#x27;&lt;div class=&quot;info&quot;&gt;开始上传图片...&lt;/div&gt;&#x27; +</span><br><span class="line">                &#x27;&lt;/div&gt;&#x27;</span><br><span class="line">            ),</span><br><span class="line">            $img = $li.find(&#x27;img&#x27;);</span><br><span class="line">        $(&quot;#fileList&quot;+i).append($li);//图片添加到容器</span><br><span class="line">        var sum = $(&quot;#fileList&quot;+i).find(&#x27;.file-item&#x27;).length;</span><br><span class="line">        if(sum &gt;= num)&#123;</span><br><span class="line">            $(&quot;#filePicker&quot;+i).attr(&#x27;style&#x27;,&#x27;display:none;&#x27;);</span><br><span class="line">        &#125;</span><br><span class="line">        // 创建缩略图显示</span><br><span class="line">        uploader.makeThumb(file,function(error,src)&#123;</span><br><span class="line">            if (error)&#123;</span><br><span class="line">                $img.replaceWith(&#x27;&lt;span&gt;不能预览&lt;/span&gt;&#x27;);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            $img.attr(&#x27;src&#x27;,src);</span><br><span class="line">        &#125;,200,200);</span><br><span class="line">    &#125;);</span><br><span class="line">    // 文件上传过程中创建进度百分比实时显示。</span><br><span class="line">    uploader.on(&#x27;uploadProgress&#x27;,function(file,percentage)&#123;</span><br><span class="line">        $(&quot;#&quot;+file.id+&quot; .info&quot;).html(&#x27;正在上传（&#x27;+parseInt(percentage*100)+&#x27;%）&#x27;);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    //文件上传返回成功，判断是否成功上传到七牛</span><br><span class="line">    uploader.on(&#x27;uploadSuccess&#x27;, function(file,response)&#123;</span><br><span class="line">        if(response.code == 0)&#123;</span><br><span class="line">            $(&quot;#&quot;+file.id+&quot; .info&quot;).html(&#x27;上传失败&#x27;);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            sumimg(num);</span><br><span class="line">            $(&quot;#&quot;+file.id+&quot; .info&quot;).html(&#x27;上传完成,点击图片可删除&#x27;);</span><br><span class="line">            $( &#x27;#&#x27;+file.id ).addClass(&#x27;upload-state-done&#x27;);</span><br><span class="line">            $( &#x27;#&#x27;+file.id+&quot;id&quot;).val(response.data);//赋值到input</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>后台代码</p>
+<pre><code>// 初始化签权对象
+$auth = new Auth($this-&gt;accessKey,$this-&gt;secretKey);
+$token = $auth-&gt;uploadToken($this-&gt;_bucket);
+
+// 构建 UploadManager 对象
+$uploadMrg = new UploadManager();
+
+// 上传文件到七牛
+$files = $_FILES;
+$values = array_values($files);
+$saveName = hash_file(&#39;sha1&#39;, $values[0][&#39;tmp_name&#39;]) . time();
+list($ret, $err) = $uploadMrg-&gt;putFile($token, $saveName, $values[0][&#39;tmp_name&#39;]);
+
+if ($err !== null) &#123;
+    $return =  [
+        &#39;code&#39;  =&gt;  0,
+        &#39;msg&#39;   =&gt;  &#39;上传图片失败&#39;
+    ];
+&#125; else &#123;
+    $return =  [
+        &#39;code&#39;  =&gt;  1,
+        &#39;msg&#39;   =&gt;  &#39;上传成功&#39;,
+        &#39;data&#39;  =&gt;  &#39;http://&#39; . $this-&gt;_domain . &#39;/&#39; . $ret[&#39;key&#39;]
+    ];
+&#125;
+return json($return);
+</code></pre>
+</li>
+<li><p>删除图片$img = Request::param(‘name’);</p>
+<pre><code>$imgArr = explode(&#39;/&#39;,$img);
+
+$delImgName = end($imgArr);
+
+    // 初始化签权对象
+$auth = new Auth($this-&gt;_accessKey,$this-&gt;_secretKey);
+
+$config = new Config();
+//        管理资源
+
+    $bucketManager = new BucketManager($auth,$config);
+
+//          删除文件操作
+
+    $res = $bucketManager -&gt; delete($this-&gt;_bucket,$delImgName);
+    if (is_null($res) || $res == null) &#123;
+            // 为null成功
+            $return = [
+                &#39;code&#39;  =&gt;  1,
+                &#39;msg&#39;   =&gt;  &#39;删除成功&#39;
+            ];
+        &#125;else&#123;
+            $return = [
+                &#39;code&#39;  =&gt;  0,
+                &#39;msg&#39;   =&gt;  &#39;删除失败&#39;
+            ];
+        &#125;
+
+        return json($return);
+</code></pre>
+</li>
+<li><p>还有一种更简单的方式(后台操作)直接使用开发好的插件这里是使用的海豚php(和tp差不多,laravel参照即可)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">// +----------------------------------------------------------------------</span><br><span class="line">// | 海豚PHP框架 [ DolphinPHP ]</span><br><span class="line">// +----------------------------------------------------------------------</span><br><span class="line">// | 版权所有 2016~2017 河源市卓锐科技有限公司 [ http://www.zrthink.com ]</span><br><span class="line">// +----------------------------------------------------------------------</span><br><span class="line">// | 官方网站: http://dolphinphp.com</span><br><span class="line">// +----------------------------------------------------------------------</span><br><span class="line">// | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )</span><br><span class="line">// +----------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">namespace plugins\QiNiu;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">use app\common\controller\Plugin;</span><br><span class="line">use app\admin\model\Attachment as AttachmentModel;</span><br><span class="line">use think\Db;</span><br><span class="line">use think\Image;</span><br><span class="line">use Qiniu\Auth;</span><br><span class="line">use Qiniu\Storage\UploadManager;</span><br><span class="line">use think\facade\Env;</span><br><span class="line">require Env::get(&#x27;root_path&#x27;).&#x27;plugins/QiNiu/SDK/autoload.php&#x27;;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 七牛上传插件</span><br><span class="line"> * @package plugins\QiNiu</span><br><span class="line"> * @author 蔡伟明 &lt;314013107@qq.com&gt;</span><br><span class="line"> */</span><br><span class="line">class QiNiu extends Plugin</span><br><span class="line">&#123;</span><br><span class="line">    /**</span><br><span class="line">     * @var array 插件信息</span><br><span class="line">     */</span><br><span class="line">    public $info = [</span><br><span class="line">        // 插件名[必填]</span><br><span class="line">        &#x27;name&#x27;        =&gt; &#x27;QiNiu&#x27;,</span><br><span class="line">        // 插件标题[必填]</span><br><span class="line">        &#x27;title&#x27;       =&gt; &#x27;七牛上传插件&#x27;,</span><br><span class="line">        // 插件唯一标识[必填],格式：插件名.开发者标识.plugin</span><br><span class="line">        &#x27;identifier&#x27;  =&gt; &#x27;qi_niu.ming.plugin&#x27;,</span><br><span class="line">        // 插件图标[选填]</span><br><span class="line">        &#x27;icon&#x27;        =&gt; &#x27;fa fa-fw fa-upload&#x27;,</span><br><span class="line">        // 插件描述[选填]</span><br><span class="line">        &#x27;description&#x27; =&gt; &#x27;仅支持DolphinPHP1.0.6以上版本，安装后，需将【&lt;a href=&quot;/admin.php/admin/system/index/group/upload.html&quot;&gt;上传驱动&lt;/a&gt;】将其设置为“七牛云”。在附件管理中删除文件，并不会同时删除七牛云上的文件。&#x27;,</span><br><span class="line">        // 插件作者[必填]</span><br><span class="line">        &#x27;author&#x27;      =&gt; &#x27;蔡伟明&#x27;,</span><br><span class="line">        // 作者主页[选填]</span><br><span class="line">        &#x27;author_url&#x27;  =&gt; &#x27;http://www.caiweiming.com&#x27;,</span><br><span class="line">        // 插件版本[必填],格式采用三段式：主版本号.次版本号.修订版本号</span><br><span class="line">        &#x27;version&#x27;     =&gt; &#x27;1.1.0&#x27;,</span><br><span class="line">        // 是否有后台管理功能[选填]</span><br><span class="line">        &#x27;admin&#x27;       =&gt; &#x27;0&#x27;,</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * @var array 插件钩子</span><br><span class="line">     */</span><br><span class="line">    public $hooks = [</span><br><span class="line">        &#x27;upload_attachment&#x27;</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 上传附件</span><br><span class="line">     * @param array $params 参数</span><br><span class="line">     * @author 蔡伟明 &lt;314013107@qq.com&gt;</span><br><span class="line">     * @return mixed</span><br><span class="line">     */</span><br><span class="line">    public function uploadAttachment($params = [])</span><br><span class="line">    &#123;</span><br><span class="line">        $file = $params[&#x27;file&#x27;];</span><br><span class="line">        // 缩略图参数</span><br><span class="line">        $thumb = request()-&gt;post(&#x27;thumb&#x27;, &#x27;&#x27;);</span><br><span class="line">        // 水印参数</span><br><span class="line">        $watermark = request()-&gt;post(&#x27;watermark&#x27;, &#x27;&#x27;);</span><br><span class="line"></span><br><span class="line">        $config = $this-&gt;getConfigValue();</span><br><span class="line"></span><br><span class="line">        $error_msg = &#x27;&#x27;;</span><br><span class="line">        if ($config[&#x27;ak&#x27;] == &#x27;&#x27;) &#123;</span><br><span class="line">            $error_msg = &#x27;未填写七牛【AccessKey】&#x27;;</span><br><span class="line">        &#125; elseif ($config[&#x27;sk&#x27;] == &#x27;&#x27;) &#123;</span><br><span class="line">            $error_msg = &#x27;未填写七牛【SecretKey】&#x27;;</span><br><span class="line">        &#125; elseif ($config[&#x27;bucket&#x27;] == &#x27;&#x27;) &#123;</span><br><span class="line">            $error_msg = &#x27;未填写七牛【Bucket】&#x27;;</span><br><span class="line">        &#125; elseif ($config[&#x27;domain&#x27;] == &#x27;&#x27;) &#123;</span><br><span class="line">            $error_msg = &#x27;未填写七牛【Domain】&#x27;;</span><br><span class="line">        &#125;</span><br><span class="line">        if ($error_msg != &#x27;&#x27;) &#123;</span><br><span class="line">            switch ($params[&#x27;from&#x27;]) &#123;</span><br><span class="line">                case &#x27;wangeditor&#x27;:</span><br><span class="line">                    return &quot;error|&#123;$error_msg&#125;&quot;;</span><br><span class="line">                    break;</span><br><span class="line">                case &#x27;ueditor&#x27;:</span><br><span class="line">                    return json([&#x27;state&#x27; =&gt; $error_msg]);</span><br><span class="line">                    break;</span><br><span class="line">                case &#x27;editormd&#x27;:</span><br><span class="line">                    return json([&quot;success&quot; =&gt; 0, &quot;message&quot; =&gt; $error_msg]);</span><br><span class="line">                    break;</span><br><span class="line">                case &#x27;ckeditor&#x27;:</span><br><span class="line">                    return ck_js(request()-&gt;get(&#x27;CKEditorFuncNum&#x27;), &#x27;&#x27;, $error_msg);</span><br><span class="line">                    break;</span><br><span class="line">                default:</span><br><span class="line">                    return json([</span><br><span class="line">                        &#x27;code&#x27;   =&gt; 0,</span><br><span class="line">                        &#x27;class&#x27;  =&gt; &#x27;danger&#x27;,</span><br><span class="line">                        &#x27;info&#x27;   =&gt; $error_msg</span><br><span class="line">                    ]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        $config[&#x27;domain&#x27;] = rtrim($config[&#x27;domain&#x27;], &#x27;/&#x27;).&#x27;/&#x27;;</span><br><span class="line"></span><br><span class="line">        // 移动到框架应用根目录/uploads/ 目录下</span><br><span class="line">        $info = $file-&gt;move(config(&#x27;upload_path&#x27;) . DIRECTORY_SEPARATOR . &#x27;temp&#x27;, &#x27;&#x27;);</span><br><span class="line">        // 文件信息</span><br><span class="line">        $file_info = $file-&gt;getInfo();</span><br><span class="line">        // 要上传文件的本地路径</span><br><span class="line">        $filePath = $info-&gt;getPathname();</span><br><span class="line">        // 上传到七牛后保存的文件名</span><br><span class="line">        $file_name = explode(&#x27;.&#x27;, $file_info[&#x27;name&#x27;]);</span><br><span class="line">        $ext = end($file_name);</span><br><span class="line">        $key = $info-&gt;hash(&#x27;md5&#x27;).&#x27;.&#x27;.$ext;</span><br><span class="line"></span><br><span class="line">        // 如果是图片，则获取宽度和高度，并判断是否添加水印</span><br><span class="line">        $ext_limit = config(&#x27;upload_image_ext&#x27;);</span><br><span class="line">        $ext_limit = $ext_limit == &#x27;&#x27; ? [] : explode(&#x27;,&#x27;, $ext_limit);</span><br><span class="line">        // 缩略图路径</span><br><span class="line">        $thumb_path_name = &#x27;&#x27;;</span><br><span class="line">        if (preg_grep(&quot;/$ext/i&quot;, $ext_limit)) &#123;</span><br><span class="line">            $img = Image::open($info);</span><br><span class="line">            $img_width  = $img-&gt;width();</span><br><span class="line">            $img_height = $img-&gt;height();</span><br><span class="line"></span><br><span class="line">            // 水印功能</span><br><span class="line">            if ($watermark == &#x27;&#x27;) &#123;</span><br><span class="line">                if (config(&#x27;upload_thumb_water&#x27;) == 1 &amp;&amp; config(&#x27;upload_thumb_water_pic&#x27;) &gt; 0) &#123;</span><br><span class="line">                    $this-&gt;create_water($info-&gt;getRealPath(), config(&#x27;upload_thumb_water_pic&#x27;));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                if (strtolower($watermark) != &#x27;close&#x27;) &#123;</span><br><span class="line">                    list($watermark_img, $watermark_pos, $watermark_alpha) = explode(&#x27;|&#x27;, $watermark);</span><br><span class="line">                    $this-&gt;create_water($info-&gt;getRealPath(), $watermark_img, $watermark_pos, $watermark_alpha);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // 生成缩略图</span><br><span class="line">            if ($thumb == &#x27;&#x27;) &#123;</span><br><span class="line">                if (config(&#x27;upload_image_thumb&#x27;) != &#x27;&#x27;) &#123;</span><br><span class="line">                    list($thumb_max_width, $thumb_max_height) = explode(&#x27;,&#x27;, config(&#x27;upload_image_thumb&#x27;));</span><br><span class="line">                    $thumb_path_name = $config[&#x27;domain&#x27;].$key.&#x27;?imageMogr2/thumbnail/&#x27;.$thumb_max_width.&#x27;x&#x27;.$thumb_max_height;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                if (strtolower($thumb) != &#x27;close&#x27;) &#123;</span><br><span class="line">                    list($thumb_size, $thumb_type) = explode(&#x27;|&#x27;, $thumb);</span><br><span class="line">                    list($thumb_max_width, $thumb_max_height) = explode(&#x27;,&#x27;, $thumb_size);</span><br><span class="line">                    $thumb_path_name = $config[&#x27;domain&#x27;].$key.&#x27;?imageMogr2/thumbnail/&#x27;.$thumb_max_width.&#x27;x&#x27;.$thumb_max_height;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            $img_width  = &#x27;&#x27;;</span><br><span class="line">            $img_height = &#x27;&#x27;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 需要填写你的 Access Key 和 Secret Key</span><br><span class="line">        $accessKey = $config[&#x27;ak&#x27;];</span><br><span class="line">        $secretKey = $config[&#x27;sk&#x27;];</span><br><span class="line">        // 构建鉴权对象</span><br><span class="line">        $auth = new Auth($accessKey, $secretKey);</span><br><span class="line">        // 要上传的空间</span><br><span class="line">        $bucket = $config[&#x27;bucket&#x27;];</span><br><span class="line">        // 生成上传 Token</span><br><span class="line">        $token = $auth-&gt;uploadToken($bucket, $key);</span><br><span class="line">        // 初始化 UploadManager 对象并进行文件的上传</span><br><span class="line">        $uploadMgr = new UploadManager();</span><br><span class="line">        // 调用 UploadManager 的 putFile 方法进行文件的上传</span><br><span class="line">        list($ret, $err) = $uploadMgr-&gt;putFile($token, $key, $filePath);</span><br><span class="line">        if ($err !== null) &#123;</span><br><span class="line">            return json([&#x27;code&#x27; =&gt; 0, &#x27;class&#x27; =&gt; &#x27;danger&#x27;, &#x27;info&#x27; =&gt; &#x27;上传失败:&#x27;.$err]);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 获取附件信息</span><br><span class="line">            $data = [</span><br><span class="line">                &#x27;uid&#x27;    =&gt; session(&#x27;user_auth.uid&#x27;),</span><br><span class="line">                &#x27;name&#x27;   =&gt; $file_info[&#x27;name&#x27;],</span><br><span class="line">                &#x27;mime&#x27;   =&gt; $file_info[&#x27;type&#x27;],</span><br><span class="line">                &#x27;path&#x27;   =&gt; $config[&#x27;domain&#x27;].$key.&#x27;?v=&#x27;.rand(111111, 999999),</span><br><span class="line">                &#x27;ext&#x27;    =&gt; $info-&gt;getExtension(),</span><br><span class="line">                &#x27;size&#x27;   =&gt; $info-&gt;getSize(),</span><br><span class="line">                &#x27;md5&#x27;    =&gt; $info-&gt;hash(&#x27;md5&#x27;),</span><br><span class="line">                &#x27;sha1&#x27;   =&gt; $info-&gt;hash(&#x27;sha1&#x27;),</span><br><span class="line">                &#x27;thumb&#x27;  =&gt; $thumb_path_name,</span><br><span class="line">                &#x27;module&#x27; =&gt; $params[&#x27;module&#x27;],</span><br><span class="line">                &#x27;driver&#x27; =&gt; &#x27;qiniu&#x27;,</span><br><span class="line">                &#x27;width&#x27;  =&gt; $img_width,</span><br><span class="line">                &#x27;height&#x27; =&gt; $img_height,</span><br><span class="line">            ];</span><br><span class="line">            if ($file_add = AttachmentModel::create($data)) &#123;</span><br><span class="line">                unset($info);</span><br><span class="line">                // 删除本地临时文件</span><br><span class="line">                @unlink(config(&#x27;upload_path&#x27;) . DIRECTORY_SEPARATOR . &#x27;temp&#x27;.DIRECTORY_SEPARATOR.$file_info[&#x27;name&#x27;]);</span><br><span class="line">                // 返回结果</span><br><span class="line">                switch ($params[&#x27;from&#x27;]) &#123;</span><br><span class="line">                    case &#x27;wangeditor&#x27;:</span><br><span class="line">                        return $data[&#x27;path&#x27;];</span><br><span class="line">                        break;</span><br><span class="line">                    case &#x27;ueditor&#x27;:</span><br><span class="line">                        return json([</span><br><span class="line">                            &quot;state&quot; =&gt; &quot;SUCCESS&quot;,          // 上传状态，上传成功时必须返回&quot;SUCCESS&quot;</span><br><span class="line">                            &quot;url&quot;   =&gt; $data[&#x27;path&#x27;], // 返回的地址</span><br><span class="line">                            &quot;title&quot; =&gt; $file_info[&#x27;name&#x27;], // 附件名</span><br><span class="line">                        ]);</span><br><span class="line">                        break;</span><br><span class="line">                    case &#x27;editormd&#x27;:</span><br><span class="line">                        return json([</span><br><span class="line">                            &quot;success&quot; =&gt; 1,</span><br><span class="line">                            &quot;message&quot; =&gt; &#x27;上传成功&#x27;,</span><br><span class="line">                            &quot;url&quot;     =&gt; $data[&#x27;path&#x27;],</span><br><span class="line">                        ]);</span><br><span class="line">                        break;</span><br><span class="line">                    case &#x27;ckeditor&#x27;:</span><br><span class="line">                        return ck_js(request()-&gt;get(&#x27;CKEditorFuncNum&#x27;), $data[&#x27;path&#x27;]);</span><br><span class="line">                        break;</span><br><span class="line">                    default:</span><br><span class="line">                        return json([</span><br><span class="line">                            &#x27;code&#x27;   =&gt; 1,</span><br><span class="line">                            &#x27;info&#x27;   =&gt; &#x27;上传成功&#x27;,</span><br><span class="line">                            &#x27;class&#x27;  =&gt; &#x27;success&#x27;,</span><br><span class="line">                            &#x27;id&#x27;     =&gt; $file_add[&#x27;id&#x27;],</span><br><span class="line">                            &#x27;path&#x27;   =&gt; $data[&#x27;path&#x27;]</span><br><span class="line">                        ]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                switch ($params[&#x27;from&#x27;]) &#123;</span><br><span class="line">                    case &#x27;wangeditor&#x27;:</span><br><span class="line">                        return &quot;error|上传失败&quot;;</span><br><span class="line">                        break;</span><br><span class="line">                    case &#x27;ueditor&#x27;:</span><br><span class="line">                        return json([&#x27;state&#x27; =&gt; &#x27;上传失败&#x27;]);</span><br><span class="line">                        break;</span><br><span class="line">                    case &#x27;editormd&#x27;:</span><br><span class="line">                        return json([&quot;success&quot; =&gt; 0, &quot;message&quot; =&gt; &#x27;上传失败&#x27;]);</span><br><span class="line">                        break;</span><br><span class="line">                    case &#x27;ckeditor&#x27;:</span><br><span class="line">                        return ck_js(request()-&gt;get(&#x27;CKEditorFuncNum&#x27;), &#x27;&#x27;, &#x27;上传失败&#x27;);</span><br><span class="line">                        break;</span><br><span class="line">                    default:</span><br><span class="line">                        return json([&#x27;code&#x27; =&gt; 0, &#x27;class&#x27; =&gt; &#x27;danger&#x27;, &#x27;info&#x27; =&gt; &#x27;上传失败&#x27;]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 添加水印</span><br><span class="line">     * @param string $file 要添加水印的文件路径</span><br><span class="line">     * @param string $watermark_img 水印图片id</span><br><span class="line">     * @param string $watermark_pos 水印位置</span><br><span class="line">     * @param string $watermark_alpha 水印透明度</span><br><span class="line">     * @author 蔡伟明 &lt;314013107@qq.com&gt;</span><br><span class="line">     */</span><br><span class="line">    private function create_water($file = &#x27;&#x27;, $watermark_img = &#x27;&#x27;, $watermark_pos = &#x27;&#x27;, $watermark_alpha = &#x27;&#x27;)</span><br><span class="line">    &#123;</span><br><span class="line">        $img  = Db::name(&#x27;admin_attachment&#x27;)-&gt;where(&#x27;id&#x27;, $watermark_img)-&gt;find();</span><br><span class="line">        $path = $img[&#x27;path&#x27;];</span><br><span class="line">        $tmp  = false;</span><br><span class="line">        if (strtolower(substr($path, 0, 4)) == &#x27;http&#x27;) &#123;</span><br><span class="line">            $file_watermark  = file_get_contents($path);</span><br><span class="line">            $thumb_water_pic = config(&#x27;upload_path&#x27;) . DIRECTORY_SEPARATOR . &#x27;temp/&#x27;.$img[&#x27;md5&#x27;].&#x27;.&#x27;.$img[&#x27;ext&#x27;];</span><br><span class="line">            if (false === file_put_contents($thumb_water_pic, $file_watermark)) &#123;</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            $tmp = true;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            $thumb_water_pic = realpath(Env::get(&#x27;root_path&#x27;) . &#x27;public/&#x27; . $path);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (is_file($thumb_water_pic)) &#123;</span><br><span class="line">            // 读取图片</span><br><span class="line">            $image = Image::open($file);</span><br><span class="line">            // 添加水印</span><br><span class="line">            $watermark_pos   = $watermark_pos   == &#x27;&#x27; ? config(&#x27;upload_thumb_water_position&#x27;) : $watermark_pos;</span><br><span class="line">            $watermark_alpha = $watermark_alpha == &#x27;&#x27; ? config(&#x27;upload_thumb_water_alpha&#x27;) : $watermark_alpha;</span><br><span class="line">            $image-&gt;water($thumb_water_pic, $watermark_pos, $watermark_alpha);</span><br><span class="line">            // 保存水印图片，覆盖原图</span><br><span class="line">            $image-&gt;save($file);</span><br><span class="line">            // 删除临时文件</span><br><span class="line">            if ($tmp) &#123;</span><br><span class="line">                unlink($thumb_water_pic);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 安装方法</span><br><span class="line">     * @author 蔡伟明 &lt;314013107@qq.com&gt;</span><br><span class="line">     * @return bool</span><br><span class="line">     */</span><br><span class="line">    public function install()&#123;</span><br><span class="line">        if (!version_compare(config(&#x27;dolphin.product_version&#x27;), &#x27;1.0.6&#x27;, &#x27;&gt;=&#x27;)) &#123;</span><br><span class="line">            $this-&gt;error = &#x27;本插件仅支持DolphinPHP1.0.6或以上版本&#x27;;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        $upload_driver = Db::name(&#x27;admin_config&#x27;)-&gt;where([&#x27;name&#x27; =&gt; &#x27;upload_driver&#x27;, &#x27;group&#x27; =&gt; &#x27;upload&#x27;])-&gt;find();</span><br><span class="line">        if (!$upload_driver) &#123;</span><br><span class="line">            $this-&gt;error = &#x27;未找到【上传驱动】配置，请确认DolphinPHP版本是否为1.0.6以上&#x27;;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        $options = parse_attr($upload_driver[&#x27;options&#x27;]);</span><br><span class="line">        if (isset($options[&#x27;qiniu&#x27;])) &#123;</span><br><span class="line">            $this-&gt;error = &#x27;已存在名为【qiniu】的上传驱动&#x27;;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        $upload_driver[&#x27;options&#x27;] .= PHP_EOL.&#x27;qiniu:七牛云&#x27;;</span><br><span class="line"></span><br><span class="line">        $result = Db::name(&#x27;admin_config&#x27;)</span><br><span class="line">            -&gt;where([&#x27;name&#x27; =&gt; &#x27;upload_driver&#x27;, &#x27;group&#x27; =&gt; &#x27;upload&#x27;])</span><br><span class="line">            -&gt;setField(&#x27;options&#x27;, $upload_driver[&#x27;options&#x27;]);</span><br><span class="line"></span><br><span class="line">        if (false === $result) &#123;</span><br><span class="line">            $this-&gt;error = &#x27;上传驱动设置失败&#x27;;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 卸载方法</span><br><span class="line">     * @author 蔡伟明 &lt;314013107@qq.com&gt;</span><br><span class="line">     * @return bool</span><br><span class="line">     */</span><br><span class="line">    public function uninstall()&#123;</span><br><span class="line">        $upload_driver = Db::name(&#x27;admin_config&#x27;)-&gt;where([&#x27;name&#x27; =&gt; &#x27;upload_driver&#x27;, &#x27;group&#x27; =&gt; &#x27;upload&#x27;])-&gt;find();</span><br><span class="line">        if ($upload_driver) &#123;</span><br><span class="line">            $options = parse_attr($upload_driver[&#x27;options&#x27;]);</span><br><span class="line">            if (isset($options[&#x27;qiniu&#x27;])) &#123;</span><br><span class="line">                unset($options[&#x27;qiniu&#x27;]);</span><br><span class="line">            &#125;</span><br><span class="line">            $options = implode_attr($options);</span><br><span class="line">            $result = Db::name(&#x27;admin_config&#x27;)</span><br><span class="line">                -&gt;where([&#x27;name&#x27; =&gt; &#x27;upload_driver&#x27;, &#x27;group&#x27; =&gt; &#x27;upload&#x27;])</span><br><span class="line">                -&gt;update([&#x27;options&#x27; =&gt; $options, &#x27;value&#x27; =&gt; &#x27;local&#x27;]);</span><br><span class="line"></span><br><span class="line">            if (false === $result) &#123;</span><br><span class="line">                $this-&gt;error = &#x27;上传驱动设置失败&#x27;;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2021/08/06/Responsive%20Layout/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">Responsive Layout</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="https://s.gravatar.com/avatar/2d6b803eea37de0257620d5fabee7e64?s=200&amp;r=g&amp;d=retro" class="soft-size--round soft-style--box" alt="Cin">
+    
+    
+      <h2>Cin</h2>
+    
+    
+      <p>未来可期</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>25</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+<section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-notice" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M512 945.02305225v28.15620663a24.27259221 24.27259221 0 0 1-24.27259221 24.27259335H394.0352a48.54518557 48.54518557 0 0 1-41.74885888-23.78714112l-110.68302222-184.47170332a132.04290333 132.04290333 0 0 1-17.47626667-48.54518557h118.4502511a200.97706667 200.97706667 0 0 1 76.21594113 14.56355556l20.38897777 133.49925888a48.54518557 48.54518557 0 0 0 36.40888888 27.67075555l16.01991111 2.91271112a24.27259221 24.27259221 0 0 1 20.38897778 25.72894889zM997.45185223 463.45481443a194.18074112 194.18074112 0 0 1-38.8361489 116.50844445 24.75804445 24.75804445 0 0 1-36.4088889 0l-34.95253333-34.95253333a24.27259221 24.27259221 0 0 1-2.91271111-30.58346667 97.09036999 97.09036999 0 0 0 0-106.79940665 24.27259221 24.27259221 0 0 1 2.91271111-30.58346666l34.95253333-34.95253334a24.75804445 24.75804445 0 0 1 18.93262223-7.28177777 26.2144 26.2144 0 0 1 17.47626667 9.70903665A194.18074112 194.18074112 0 0 1 997.45185223 463.45481443z m-194.18074112-388.36148111v776.72296335a48.54518557 48.54518557 0 0 1-48.54518556 48.54518443h-28.64165888a48.54518557 48.54518557 0 0 1-33.98163001-14.07810332l-145.63555556-143.20829668A291.27111111 291.27111111 0 0 0 342.57730333 657.63555556H172.18370333a145.63555556 145.63555556 0 0 1-145.63555556-145.63555556v-97.09036999a145.63555556 145.63555556 0 0 1 145.63555556-145.63555556h170.3936a291.27111111 291.27111111 0 0 0 206.31703779-85.43952668l145.63555555-143.20829554a48.54518557 48.54518557 0 0 1 33.98162888-14.07810446H754.72592555a48.54518557 48.54518557 0 0 1 48.54518556 48.54518555z" fill="currentColor"></path>
+</svg>
+    <span>NOTICE</span>
+  </div>
+  <div class="widget-body">
+    <p>如果你看到这个,说明没有通知</p>
+  </div>
+</section>
+
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+          <a href="https://github.com/miiiku/" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+    </div>
+     
+    <p>&copy; 2021 <a href="/" target="_blank">Cin</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>
