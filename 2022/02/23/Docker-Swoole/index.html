@@ -24,7 +24,7 @@
 
   
 
-  <title>Docker Lamp | Blog by cin</title>
+  <title>Docker Swoole | Blog by cin</title>
 
   
 
@@ -89,11 +89,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">Docker Lamp</h1>
+          <h1 class="title-wrap">Docker Swoole</h1>
           <h2 class="title-sub-wrap">
             <strong>Cin</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-08-06T10:50:36.000Z" itemprop="datePublished">2021-08-06</time>
+            <time  class="article-date" datetime="2022-02-22T21:49:55.000Z" itemprop="datePublished">2022-02-23</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -123,33 +123,50 @@
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <ol>
-<li><h4 id="查询并获取mysql镜像-如果docker版本比较新也可以直接尝试-pull-mysql5-7-这里我用的5-7"><a href="#查询并获取mysql镜像-如果docker版本比较新也可以直接尝试-pull-mysql5-7-这里我用的5-7" class="headerlink" title="查询并获取mysql镜像(如果docker版本比较新也可以直接尝试 pull mysql5.7,这里我用的5.7)"></a>查询并获取mysql镜像(如果docker版本比较新也可以直接尝试 pull mysql5.7,这里我用的5.7)</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker search mysq:5.7</span><br><span class="line">docker pull 镜像名</span><br></pre></td></tr></table></figure></li>
-<li><h4 id="查询并获取php-apache镜像"><a href="#查询并获取php-apache镜像" class="headerlink" title="查询并获取php-apache镜像"></a>查询并获取php-apache镜像</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull php:7.3-apache</span><br></pre></td></tr></table></figure></li>
-<li><h4 id="查看镜像-这里面会展示镜像各种信息"><a href="#查看镜像-这里面会展示镜像各种信息" class="headerlink" title="查看镜像(这里面会展示镜像各种信息)"></a>查看镜像(这里面会展示镜像各种信息)</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure></li>
-<li><h4 id="创建自定义网络-可选"><a href="#创建自定义网络-可选" class="headerlink" title="创建自定义网络(可选)"></a>创建自定义网络(可选)</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker network create lamp  #创建lamp网络</span><br><span class="line">docker network ls			#查看所有网络</span><br></pre></td></tr></table></figure></li>
-<li><h4 id="创建一个脚本用来运行"><a href="#创建一个脚本用来运行" class="headerlink" title="创建一个脚本用来运行"></a>创建一个脚本用来运行</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim lamp.sh</span><br></pre></td></tr></table></figure></li>
-<li><h4 id="编辑脚本函数-win直接输入命令即可-这里是为了后续使用"><a href="#编辑脚本函数-win直接输入命令即可-这里是为了后续使用" class="headerlink" title="编辑脚本函数(win直接输入命令即可,这里是为了后续使用)"></a>编辑脚本函数(win直接输入命令即可,这里是为了后续使用)</h4><p>–name     为命名 (非必填只是为了方便后续不用每次都用id)</p>
-<p>–net     为使用的网络 (非必填,这里我使用的自定义lamp网络,默认为桥接)</p>
-<p>-p          为端口映射 (必填,docker虚拟端口:宿主机端口)</p>
-<p>-v         挂载目录 (非必填,但是如果不挂载,没办法保存数据,主机目录:docker虚拟机目录)</p>
-<p>-d          以daemon启动(必填,所有服务类必填)</p>
-<p>!!!注意下面的格式,不要随意变动</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">mysql()</span><br><span class="line">&#123;</span><br><span class="line">	docker run --name my_mysql --net lamp -p 3306:3306 \</span><br><span class="line">	-v ~/DockerVendor/mysql/data:/var/lib/mysql \</span><br><span class="line">	-v ~/DockerVendor/mysql/conf:/etc/mysql/conf.d \</span><br><span class="line">	-v ~/DockerVendor/mysql/logs:/logs \</span><br><span class="line">	-e MYSQL_ROOT_PASSWORD=ppnn13% \		   #设置root默认密码</span><br><span class="line">	-d mysql:5.7 --character-set-server=utf8   #使用utf8编码(选填)</span><br><span class="line">&#125;</span><br><span class="line">apache()</span><br><span class="line">&#123;</span><br><span class="line">	docker run --name my_apache --net lamp -p 80:80 \</span><br><span class="line">	-v ~/DockerVendor/lamp/httpd/conf:/etc/apache2/sites-enabled \</span><br><span class="line">	-v ~/DockerVendor/lamp/www:/var/www/html \</span><br><span class="line">	-v ~/DockerVendor/lamp/httpd/logs:/var/log/apache2 \</span><br><span class="line">	-d php:7.3-apache</span><br><span class="line">&#125;</span><br><span class="line">$1</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-<li><h4 id="现在就可以运行脚本了"><a href="#现在就可以运行脚本了" class="headerlink" title="现在就可以运行脚本了"></a>现在就可以运行脚本了</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sh lamp.sh apache</span><br><span class="line">sh lamp.sh mysql</span><br></pre></td></tr></table></figure></li>
-<li><h4 id="页面会输出运行的容器id-名称如果想进入容器可以使用下面的命令"><a href="#页面会输出运行的容器id-名称如果想进入容器可以使用下面的命令" class="headerlink" title="页面会输出运行的容器id|名称如果想进入容器可以使用下面的命令"></a>页面会输出运行的容器id|名称如果想进入容器可以使用下面的命令</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it 容器id|自定义名称 /bin/bash</span><br></pre></td></tr></table></figure></li>
-<li><h4 id="镜像有时候未安装拓展-如何安装"><a href="#镜像有时候未安装拓展-如何安装" class="headerlink" title="镜像有时候未安装拓展,如何安装?"></a>镜像有时候未安装拓展,如何安装?</h4><p>进入容器</p>
-<p>进入/usr/local/bin查看一下安装配置工具,这里可以看到docker-php-*,这些就是docker管理php的</p>
-<p>官方拓展可以这么安装</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker-php-ext-install 拓展名</span><br><span class="line">#ocker-php-ext-install -j$(nproc) bcmath calendar exif gettext sockets dba mysqli pcntl pdo_mysql shmop sysvmsg sysvsem sysvshm</span><br></pre></td></tr></table></figure>
+<li><h4 id="获取phpswoole镜像"><a href="#获取phpswoole镜像" class="headerlink" title="获取phpswoole镜像"></a>获取phpswoole镜像</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull phpswoole/swoole:4.8-php7.4</span><br></pre></td></tr></table></figure></li>
+<li><h4 id="获取redis镜像"><a href="#获取redis镜像" class="headerlink" title="获取redis镜像"></a>获取redis镜像</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull redis</span><br></pre></td></tr></table></figure></li>
+<li><h4 id="编写phpswoole的run-sh-amp-amp-Dockerfile"><a href="#编写phpswoole的run-sh-amp-amp-Dockerfile" class="headerlink" title="编写phpswoole的run.sh&amp;&amp;Dockerfile"></a>编写phpswoole的run.sh&amp;&amp;Dockerfile</h4><h5 id="目录结构如下"><a href="#目录结构如下" class="headerlink" title="目录结构如下"></a>目录结构如下</h5><p>-php-swoole</p>
+<p>​        |–Dockerfile</p>
+<p>​        |–swoole_loader74.so</p>
+<p>​        |–run.sh</p>
+<h5 id="run-sh文件如下"><a href="#run-sh文件如下" class="headerlink" title="run.sh文件如下"></a>run.sh文件如下</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">chmod -R 777 /var/www</span><br><span class="line">php think swoole</span><br></pre></td></tr></table></figure>
 
-<p>这一步已经安装完了,并且已经启动,如果未启动可以执行下面的命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-php-ext-enable 拓展名</span><br></pre></td></tr></table></figure>
+<h5 id="Dockerfile文件如下"><a href="#Dockerfile文件如下" class="headerlink" title="Dockerfile文件如下"></a>Dockerfile文件如下</h5><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#镜像名:标签</span></span><br><span class="line"><span class="keyword">FROM</span> phpswoole/swoole:<span class="number">4.8</span>-php7.<span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> Author=<span class="string">&quot;cin&quot;</span></span></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> E-mail=<span class="string">&quot;23177804@qq.com&quot;</span></span></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> GitBlob=<span class="string">&quot;https://from-cin.github.io&quot;</span></span></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> BaseImage=<span class="string">&quot;phpswoole/swoole:4.8-php7.4&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> DEBIAN_FRONTEND noninteractive</span><br><span class="line"><span class="keyword">ENV</span> TERM            xterm-color</span><br><span class="line"></span><br><span class="line"><span class="keyword">ARG</span> DEV_MODE</span><br><span class="line"><span class="keyword">ENV</span> DEV_MODE $DEV_MODE</span><br><span class="line"></span><br><span class="line"><span class="comment"># 复制swoole_loader74拓展</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> swoole_loader74.so /usr/<span class="built_in">local</span>/lib/php/extensions/no-debug-non-zts-20190902/</span></span><br><span class="line"><span class="comment"># 复制运行脚本</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> run.sh /home/run.sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#抛出的端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8324</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#安装(开启)php-redis&amp;&amp;pdo_mysql&amp;&amp;swoole_loader</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">set</span> -ex \</span></span><br><span class="line"><span class="bash">    &amp;&amp; pecl update-channels \</span></span><br><span class="line"><span class="bash">    &amp;&amp; pecl install redis-stable \</span></span><br><span class="line"><span class="bash">    &amp;&amp; docker-php-ext-enable redis \</span></span><br><span class="line"><span class="bash">    &amp;&amp; docker-php-ext-install pdo_mysql \</span></span><br><span class="line"><span class="bash">    &amp;&amp; docker-php-ext-enable pdo_mysql \</span></span><br><span class="line"><span class="bash">    &amp;&amp;docker-php-ext-enable swoole_loader74</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#启动容器时运行脚本(第二个COPY行一致)</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;/home/run.sh&quot;</span>]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#命令行进入时工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> <span class="string">&quot;/var/www/&quot;</span></span></span><br></pre></td></tr></table></figure></li>
+<li><h4 id="php-swoole下执行以下命令-生成自定义镜像"><a href="#php-swoole下执行以下命令-生成自定义镜像" class="headerlink" title="php-swoole下执行以下命令,生成自定义镜像"></a>php-swoole下执行以下命令,生成自定义镜像</h4><h5 id="f-选择Dockerfile文件"><a href="#f-选择Dockerfile文件" class="headerlink" title="-f 选择Dockerfile文件"></a>-f 选择Dockerfile文件</h5><h5 id="t-tag-格式为-Name-Tag"><a href="#t-tag-格式为-Name-Tag" class="headerlink" title="-t|-tag 格式为 Name:Tag"></a>-t|-tag 格式为 Name:Tag</h5><h5 id="代表上下文-COPY时使用的路径-不可省略"><a href="#代表上下文-COPY时使用的路径-不可省略" class="headerlink" title=". 代表上下文(COPY时使用的路径) 不可省略!!!"></a>. 代表上下文(COPY时使用的路径) 不可省略!!!</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -f Dockerfile -t cin/swoole:4.8-php74-redis .</span><br></pre></td></tr></table></figure></li>
+<li><h4 id="为phpswoole容器创建脚本-bat-sh-并运行"><a href="#为phpswoole容器创建脚本-bat-sh-并运行" class="headerlink" title="为phpswoole容器创建脚本(bat|sh)并运行"></a>为phpswoole容器创建脚本(bat|sh)并运行</h4><p>run 创建容器指令</p>
+<p>–name 创建的容器名(不写则随机生成)</p>
+<p>-i    交互模式(与-t一起)</p>
+<p>-t    分配终端(与-i一起)</p>
+<p>–net 使用docker网络                需要使用docker network create xxxx 创建名为xxxx的桥接网络(不写则为默认dockerdefault网络)</p>
+<p>-p    映射主机端口                         格式( 宿主机端口:主机端口 )</p>
+<p>-v    挂在宿主机文件至主机          格式( 宿主机路径:主机路径 )</p>
+<p>-d    后台运行</p>
+<p>最后跟上镜像名</p>
+<h5 id="sh文件如下"><a href="#sh文件如下" class="headerlink" title=".sh文件如下"></a>.sh文件如下</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run -it \</span><br><span class="line">	--name test01 -p 8080:8324 --net xxxx\</span><br><span class="line">	-v /www/wwwroot/crmeb-admin:/var/www \</span><br><span class="line">	-d cin/swoole:4.8-php74-redis</span><br></pre></td></tr></table></figure>
 
-<p>如果想安装其他拓展,参考linux安装php拓展</p>
-<p>注: docker-php-source extract可以生成php源码包        </p>
-<p>卸载拓展要这样</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /usr/local/etc/php/conf.d/docker-php-ext-拓展名.ini</span><br></pre></td></tr></table></figure></li>
-<li><p>mysql部分就很简单了,直接参考上面命令(docker运行的都是虚拟机,一个服务就是一个虚拟机)</p>
+<h5 id="bat文件如下"><a href="#bat文件如下" class="headerlink" title=".bat文件如下"></a>.bat文件如下</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run -it ^</span><br><span class="line">	--name test01 -p 8080:8324 ^</span><br><span class="line">	-v  E:\Php\crmeb-admin:/var/www ^</span><br><span class="line">	-d cin/swoole:4.8-php74-redis</span><br></pre></td></tr></table></figure></li>
+<li><h4 id="创建Redis的redis-conf-amp-amp-Dockerfile"><a href="#创建Redis的redis-conf-amp-amp-Dockerfile" class="headerlink" title="创建Redis的redis.conf&amp;&amp;Dockerfile"></a>创建Redis的redis.conf&amp;&amp;Dockerfile</h4><h5 id="目录结构如下-1"><a href="#目录结构如下-1" class="headerlink" title="目录结构如下"></a>目录结构如下</h5><p>-redis</p>
+<p>​        |–redis.conf</p>
+<p>​        |–Dockerfile</p>
+<h5 id="redis-conf如下-本次为开放外部请求"><a href="#redis-conf如下-本次为开放外部请求" class="headerlink" title="redis.conf如下(本次为开放外部请求)"></a>redis.conf如下(本次为开放外部请求)</h5><p>bind:绑定端口 0.0.0.0意为开放</p>
+<p>daemonize:守护线程</p>
+<p>protected-mode:保护模式</p>
+<p>requirepass:密码</p>
+<p>appendonly: 持久化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bind 0.0.0.0</span><br><span class="line">daemonize NO</span><br><span class="line">protected-mode no</span><br><span class="line">requirepass mmmmmm</span><br><span class="line">appendonly yes</span><br></pre></td></tr></table></figure>
+
+<h5 id="Dockerfile如下"><a href="#Dockerfile如下" class="headerlink" title="Dockerfile如下"></a>Dockerfile如下</h5><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> redis:latest</span><br><span class="line"></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> Author=<span class="string">&quot;cin&quot;</span></span></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> E-mail=<span class="string">&quot;23177804@qq.com&quot;</span></span></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> GitBlob=<span class="string">&quot;https://from-cin.github.io&quot;</span></span></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> BaseImage=<span class="string">&quot;redis:latest&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> redis.conf /etc/redis/redis.conf</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> redis-server /etc/redis/redis.conf</span></span><br></pre></td></tr></table></figure></li>
+<li><h4 id="redis目录下执行以下命令生成开放访问版redis镜像"><a href="#redis目录下执行以下命令生成开放访问版redis镜像" class="headerlink" title="redis目录下执行以下命令生成开放访问版redis镜像"></a>redis目录下执行以下命令生成开放访问版redis镜像</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -f Dockerfile -t cin/redis:latest .</span><br></pre></td></tr></table></figure></li>
+<li><h4 id="为redis容器创建脚本-bat-sh-并运行"><a href="#为redis容器创建脚本-bat-sh-并运行" class="headerlink" title="为redis容器创建脚本(bat|sh)并运行"></a>为redis容器创建脚本(bat|sh)并运行</h4><h5 id="bat如下"><a href="#bat如下" class="headerlink" title=".bat如下"></a>.bat如下</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -it ^</span><br><span class="line">	--name test02 -p 6380:6379 ^</span><br><span class="line">	-d cin/redis:latest</span><br></pre></td></tr></table></figure>
+
+<h5 id="sh如下"><a href="#sh如下" class="headerlink" title=".sh如下"></a>.sh如下</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -it \</span><br><span class="line">	--name test02 -p 6380:6379 \</span><br><span class="line">	-d cin/redis:latest</span><br></pre></td></tr></table></figure>
+
+<h5 id="注"><a href="#注" class="headerlink" title="注:"></a>注:</h5><ol>
+<li><p>数据库访问需开启局域网访问权限</p>
+</li>
+<li><p>docker网络默认桥接,如需访问docker主机需执行ifconfig/ipconfig 查看 vEthernet网卡的ip(可使用以下命令管理docker网络)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker network create xxxx #创建名为xxxx的桥接网络</span><br><span class="line">docker network inspect xxxx #查看xxxx内部信息</span><br><span class="line">docker network  ls	#列出所有docker网络</span><br><span class="line">docker network rm xxxx #移除名为xxxx的网络</span><br><span class="line"><span class="meta">#</span><span class="bash">如需使用网络于创建容器脚本时使用--net xxxx</span></span><br></pre></td></tr></table></figure></li>
+</ol>
 </li>
 </ol>
 
@@ -159,28 +176,14 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-    <div class="card-text">
-      
-        <a href="/2021/08/06/Mac%20Homebrew%20Installer/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">Mac Homebrew Installer</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
     <div class="card-text">
       
-        <a href="/2021/08/06/Git%20Command/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">Git Command</h2>
+        <a href="/2021/08/06/React%20Export%20PDF/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">React Export PDF</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -336,7 +339,7 @@
       
     </div>
      
-    <p>&copy; 2021 <a href="/" target="_blank">Cin</a></p>
+    <p>&copy; 2022 <a href="/" target="_blank">Cin</a></p>
 
     
 
